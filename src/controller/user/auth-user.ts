@@ -1,10 +1,14 @@
 import { Request, Response } from "express";
+import { AuthUserService } from "../../services/user/auth-user";
 
 class AuthUserController {
   async handle(req: Request, res: Response) {
     const { email, password } = req.body;
-    console.log({ email, password });
-    res.json({ ok: true });
+
+    const authUser = new AuthUserService();
+
+    const session = await authUser.execute({ email, password });
+    res.json({ session });
   }
 }
 
