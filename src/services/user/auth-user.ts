@@ -21,7 +21,7 @@ class AuthUserService {
 
     const passwordMatch = await compare(password, user.password);
 
-    if (!password) {
+    if (!passwordMatch) {
       throw new Error("Email ou senha invalido");
     }
 
