@@ -10,7 +10,10 @@ import {isAdmin} from './middlewares/isAdmin';
 import {createCategorySchema} from './schemas/categorySchema';
 import {GetAllCategoryController} from './controller/category/get-categpries';
 import {CreateProductController} from './controller/product/CreateProductController';
+import multer from 'multer';
+import uploadConfig from './config/multer';
 
+const upload = multer(uploadConfig);
 const router = Router();
 
 router.post(
@@ -44,6 +47,7 @@ router.post(
   '/product',
   isAuthenticated,
   isAdmin,
+  upload.single('file'),
   new CreateProductController().handle,
 );
 export {router};
