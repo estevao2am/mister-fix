@@ -12,6 +12,7 @@ import {GetAllCategoryController} from './controller/category/get-categpries';
 import {CreateProductController} from './controller/product/CreateProductController';
 import multer from 'multer';
 import uploadConfig from './config/multer';
+import {createProductSchema} from './schemas/productSchema';
 
 const upload = multer(uploadConfig);
 const router = Router();
@@ -47,6 +48,8 @@ router.post(
   '/product',
   isAuthenticated,
   isAdmin,
+  validateSchema(createProductSchema),
+
   upload.single('file'),
   new CreateProductController().handle,
 );
