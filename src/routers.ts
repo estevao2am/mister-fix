@@ -12,7 +12,14 @@ import {GetAllCategoryController} from './controller/category/get-categpries';
 import {CreateProductController} from './controller/product/CreateProductController';
 import multer from 'multer';
 import uploadConfig from './config/multer';
-import {createProductSchema} from './schemas/productSchema';
+import {
+  createProductSchema,
+  listProductByCategorySchema,
+  listProductSchema,
+} from './schemas/productSchema';
+import {ListProductController} from './controller/product/ListProductController';
+import {DeleteProductController} from './controller/product/DeleteProductController';
+import {ListProductByCategoryController} from './controller/product/ListProductByCategoryController';
 
 const upload = multer(uploadConfig);
 const router = Router();
@@ -53,4 +60,29 @@ router.post(
   upload.single('file'),
   new CreateProductController().handle,
 );
+
+// localhost:3333/products?disabled=true
+router.get(
+  '/products',
+  isAuthenticated,
+  validateSchema(listProductSchema),
+  new ListProductController().handle,
+);
+
+// localhost:3333/products?disabled=true
+
+router.delete(
+  '/products',
+  isAuthenticated,
+  isAdmin,
+  new DeleteProductController().handle,
+);
+
+router.get(
+  '/category/product',
+  isAuthenticated,
+  validateSchema(listProductByCategorySchema),
+  new ListProductByCategoryController().handle,
+);
+
 export {router};
