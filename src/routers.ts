@@ -23,12 +23,14 @@ import {ListProductByCategoryController} from './controller/product/ListProductB
 import {
   addItemSchema,
   createOrderSchema,
+  detailOrderSchema,
   removeItemSchema,
 } from './schemas/orderSchema';
 import {CreateOrderController} from './controller/order/CreateOrderController';
 import {ListOrdersController} from './controller/order/ListOrdersController';
 import {AddItemController} from './controller/order/AddItemController';
 import {RemoveItemController} from './controller/order/RemoveItemController';
+import {DetailOrderController} from './controller/order/DetailOrderController';
 
 const upload = multer(uploadConfig);
 const router = Router();
@@ -103,6 +105,15 @@ router.post(
 );
 
 router.get('/orders', isAuthenticated, new ListOrdersController().handle);
+
+// Buscar detalhes de uma order
+router.get(
+  '/order/detail',
+  isAuthenticated,
+  validateSchema(detailOrderSchema),
+  new DetailOrderController().handle,
+);
+
 // Adicionar item a order
 
 router.post(
@@ -112,7 +123,7 @@ router.post(
   new AddItemController().handle,
 );
 
-// Remover item da order
+// Remover item da order localhost:3333/order/remove?item_id=125104a3-2534-4b38-a59a-0d97fa0142c5
 router.delete(
   '/order/remove',
   isAuthenticated,
