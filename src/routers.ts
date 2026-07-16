@@ -23,7 +23,9 @@ import {ListProductByCategoryController} from './controller/product/ListProductB
 import {
   addItemSchema,
   createOrderSchema,
+  deleteOrderSchema,
   detailOrderSchema,
+  finishOrderSchema,
   removeItemSchema,
   sendOrderSchema,
 } from './schemas/orderSchema';
@@ -33,6 +35,8 @@ import {AddItemController} from './controller/order/AddItemController';
 import {RemoveItemController} from './controller/order/RemoveItemController';
 import {DetailOrderController} from './controller/order/DetailOrderController';
 import {SendOrderController} from './controller/order/SendOrderController';
+import {FinishOrderController} from './controller/order/FinishOrderController';
+import {DeleteOrderController} from './controller/order/DeleteOrderController';
 
 const upload = multer(uploadConfig);
 const router = Router();
@@ -131,7 +135,19 @@ router.put(
   validateSchema(sendOrderSchema),
   new SendOrderController().handle,
 );
+router.put(
+  '/order/finish',
+  isAuthenticated,
+  validateSchema(finishOrderSchema),
+  new FinishOrderController().handle,
+);
 
+router.delete(
+  '/order',
+  isAuthenticated,
+  validateSchema(deleteOrderSchema),
+  new DeleteOrderController().handle,
+);
 // Remover item da order localhost:3333/order/remove?item_id=125104a3-2534-4b38-a59a-0d97fa0142c5
 router.delete(
   '/order/remove',
