@@ -20,10 +20,15 @@ import {
 import {ListProductController} from './controller/product/ListProductController';
 import {DeleteProductController} from './controller/product/DeleteProductController';
 import {ListProductByCategoryController} from './controller/product/ListProductByCategoryController';
-import {addItemSchema, createOrderSchema} from './schemas/orderSchema';
+import {
+  addItemSchema,
+  createOrderSchema,
+  removeItemSchema,
+} from './schemas/orderSchema';
 import {CreateOrderController} from './controller/order/CreateOrderController';
 import {ListOrdersController} from './controller/order/ListOrdersController';
 import {AddItemController} from './controller/order/AddItemController';
+import {RemoveItemController} from './controller/order/RemoveItemController';
 
 const upload = multer(uploadConfig);
 const router = Router();
@@ -105,6 +110,14 @@ router.post(
   isAuthenticated,
   validateSchema(addItemSchema),
   new AddItemController().handle,
+);
+
+// Remover item da order
+router.delete(
+  '/order/remove',
+  isAuthenticated,
+  validateSchema(removeItemSchema),
+  new RemoveItemController().handle,
 );
 
 export {router};
