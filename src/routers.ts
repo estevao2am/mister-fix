@@ -20,6 +20,9 @@ import {
 import {ListProductController} from './controller/product/ListProductController';
 import {DeleteProductController} from './controller/product/DeleteProductController';
 import {ListProductByCategoryController} from './controller/product/ListProductByCategoryController';
+import {createOrderSchema} from './schemas/orderSchema';
+import {CreateOrderController} from './controller/order/CreateOrderController';
+import {ListOrdersController} from './controller/order/ListOrdersController';
 
 const upload = multer(uploadConfig);
 const router = Router();
@@ -84,5 +87,15 @@ router.get(
   validateSchema(listProductByCategorySchema),
   new ListProductByCategoryController().handle,
 );
+
+// Rotas Order
+router.post(
+  '/order',
+  isAuthenticated,
+  validateSchema(createOrderSchema),
+  new CreateOrderController().handle,
+);
+
+router.get('/orders', isAuthenticated, new ListOrdersController().handle);
 
 export {router};
